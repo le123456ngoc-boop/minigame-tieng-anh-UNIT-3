@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3: Music - English 10 Global Success</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #f472b6;
+            border-radius: 24px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.2);
+        }
+
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { font-size: 36px; }
+        .sub-title { font-size: 12px; font-weight: 700; color: #db2777; text-transform: uppercase; }
+        .main-title { font-family: 'Fredoka', sans-serif; font-size: 28px; color: #831843; }
+
+        .nav-container { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .nav-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #475569;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        /* FLASHCARD STYLES */
+        .card-container {
+            perspective: 1000px;
+            max-width: 600px;
+            height: 460px;
+            margin: 0 auto 24px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+            border-radius: 28px;
+        }
+
+        .card-inner.flipped { transform: rotateY(180deg); }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 28px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-front {
+            background: white;
+            border: 4px solid #f472b6;
+            box-shadow: 0 15px 30px rgba(244, 114, 182, 0.2);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            transform: rotateY(180deg);
+            border: 4px solid #c084fc;
+        }
+
+        .badge {
+            background: #fce7f3;
+            color: #be185d;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .speaker-btn {
+            background: #fdf2f8;
+            border: 2px solid #fbcfe8;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .word-icon { font-size: 80px; margin-bottom: 12px; }
+        .word-title { font-family: 'Fredoka', sans-serif; font-size: 42px; color: #0f172a; }
+        .word-ipa { font-size: 20px; color: #9333ea; font-weight: 700; }
+
+        .meaning-title { font-family: 'Fredoka', sans-serif; font-size: 38px; color: #fde047; margin: 12px 0 20px; }
+        .example-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 16px;
+            border-radius: 16px;
+            width: 100%;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .controls { display: flex; justify-content: center; gap: 16px; }
+        .btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #f8fafc; }
+        .btn-primary { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; border: none; }
+        .btn-primary:hover { opacity: 0.95; }
+
+        /* GAME STYLES */
+        .game-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media(min-width: 768px) { .game-grid { grid-template-columns: 1fr 1fr; } }
+
+        .wheel-container { position: relative; width: 340px; height: 340px; margin: 0 auto; }
+        .wheel-canvas-class { width: 340px; height: 340px; border-radius: 50%; }
+        .wheel-pointer { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); font-size: 32px; color: #ec4899; z-index: 10; }
+        .spin-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: #facc15;
+            border: 4px solid white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .challenge-box {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            border: 3px solid #c084fc;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(192, 132, 252, 0.15);
+        }
+
+        .scramble-letters {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 30px;
+            color: #7c3aed;
+            letter-spacing: 5px;
+            margin: 10px 0;
+            background: #f3e8ff;
+            padding: 8px 16px;
+            border-radius: 16px;
+            border: 2px dashed #c084fc;
+        }
+
+        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 14px; }
+        .opt-grid-single { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; margin-top: 14px; }
+
+        .opt-btn {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .opt-btn:hover { background: #fce7f3; border-color: #f472b6; }
+        .opt-btn.hidden-option { display: none; }
+
+        /* GIFT BOX STYLES */
+        .gift-grid { display: flex; justify-content: center; gap: 16px; margin-top: 16px; width: 100%; }
+        .gift-card {
+            background: #fdf2f8;
+            border: 3px dashed #f472b6;
+            border-radius: 20px;
+            padding: 16px;
+            cursor: pointer;
+            font-size: 40px;
+            transition: transform 0.2s, background 0.2s;
+            flex: 1;
+            max-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .gift-card:hover { transform: scale(1.08); background: #fce7f3; }
+
+        /* MULTIPLE CHOICE & MUSIC STYLES */
+        .lifeline-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; width: 100%; }
+        .lifeline-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.3);
+        }
+        .lifeline-btn:disabled { background: #cbd5e1; cursor: not-allowed; box-shadow: none; }
+
+        .music-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            border: 3px solid #f472b6;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.2);
+        }
+
+        .disc-icon {
+            font-size: 80px;
+            margin: 15px 0;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .disc-icon.spinning {
+            animation: rotateDisc 2s linear infinite;
+        }
+
+        @keyframes rotateDisc {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-box">
+                <span class="logo-icon">🎤</span>
+                <div>
+                    <p class="sub-title">Global Success 10</p>
+                    <h1 class="main-title">UNIT 3: MUSIC</h1>
+                </div>
+            </div>
+            <div class="nav-container">
+                <button id="btn-tab-cards" class="nav-btn active" onclick="switchTab('cards')">🎴 Flashcards</button>
+                <button id="btn-tab-game" class="nav-btn" onclick="switchTab('game')">🎡 Game Từ Vựng</button>
+                <button id="btn-tab-quiz" class="nav-btn" onclick="switchTab('quiz')">📝 Trắc Nghiệm ABCD</button>
+                <button id="btn-tab-music" class="nav-btn" onclick="switchTab('music')">🎵 Đoán Nhạc</button>
+            </div>
+        </header>
+
+        <!-- FLASHCARDS SECTION -->
+        <div id="section-cards">
+            <div style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto 12px;">
+                <span id="card-counter" style="font-weight: 700; color: #db2777;">Word 1 of 14</span>
+                <button class="btn" onclick="shuffleCards()" style="padding: 8px 16px; font-size: 13px;">🔀 Shuffle</button>
+            </div>
+
+            <div class="card-container" onclick="flipCard()">
+                <div id="flashcard" class="card-inner">
+                    <div class="card-front">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <span id="card-type" class="badge">Adjective</span>
+                            <button class="speaker-btn" onclick="event.stopPropagation(); speakWord()">🔊</button>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="card-icon" class="word-icon">🌟</div>
+                            <h2 id="card-word" class="word-title">Famous</h2>
+                            <p id="card-ipa" class="word-ipa">/ˈfeɪməs/</p>
+                        </div>
+                        <p style="font-size: 12px; color: #94a3b8; font-weight: 700;">Click card to flip 👆</p>
+                    </div>
+                    <div class="card-back">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span id="card-back-type" style="text-transform: uppercase; font-size: 13px; font-weight: 700;">Adjective</span>
+                            <span id="card-back-ipa">/ˈfeɪməs/</span>
+                        </div>
+                        <div style="text-align: center; width: 100%;">
+                            <p style="font-size: 12px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Vietnamese Meaning</p>
+                            <h3 id="card-meaning" class="meaning-title">Nổi tiếng</h3>
+                            <div class="example-box">
+                                <p style="font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px;">Example Sentence:</p>
+                                <p id="card-example" style="font-style: italic;">"She became a famous singer."</p>
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: #cbd5e1; font-weight: 700;">Click to flip back 🔄</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" onclick="prevCard()">❮ Prev</button>
+                <button class="btn btn-primary" onclick="nextCard()">Next Word ➔</button>
+            </div>
+        </div>
+
+        <!-- VOCAB GAME SECTION -->
+        <div id="section-game" style="display: none;">
+            <div class="game-grid">
+                <div style="text-align: center;">
+                    <div class="wheel-container">
+                        <div class="wheel-pointer">▼</div>
+                        <canvas id="wheel-canvas" class="wheel-canvas-class" width="340" height="340"></canvas>
+                        <button class="spin-btn" onclick="spinWheel()">SPIN</button>
+                    </div>
+                    <button class="btn" onclick="resetDefaultWheel()" style="margin-top: 16px; border-color: #f472b6; color: #db2777;">🔄 Reset All Questions</button>
+                </div>
+
+                <div>
+                    <div id="challenge-box" class="challenge-box">
+                        <div style="font-size: 56px; margin-bottom: 12px;">🎡</div>
+                        <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; margin-bottom: 8px;">Spin the Wheel!</h3>
+                        <p style="color: #64748b; font-size: 14px;">Quay vòng quay để chọn số thứ tự câu hỏi may mắn!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION TRẮC NGHIỆM ABCD (HỆ THỐNG TỰ RANDOM KHÔNG TRÙNG LẶP, HẾT LÀ DỪNG) -->
+        <div id="section-quiz" style="display: none;">
+            <div class="music-card" style="max-width: 750px;">
+                <span class="badge" style="margin-bottom: 12px;">📝 Trắc Nghiệm ABCD (Tự động Random)</span>
+                
+                <div id="quiz-system-area" style="text-align: left; margin-top: 15px;">
+                    <!-- Nơi hiển thị câu hỏi ngẫu nhiên -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION ĐOÁN NHẠC (ĐÚNG 3 CÂU CHO 3 BÀI, HẾT LÀ DỪNG) -->
+        <div id="section-music" style="display: none;">
+            <div class="music-card">
+                <span class="badge" style="margin-bottom: 12px;">🎵 Music Challenge (3 Bài Hát)</span>
+                <h2 style="font-family: 'Fredoka'; font-size: 26px; color: #831843; margin-bottom: 8px;">Đoán Tên Bài Hát</h2>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 12px;">Bấm phát đoạn nhạc trong 15 giây và chọn tên bài hát tương ứng nhé!</p>
+
+                <div>
+                    <div id="disc-element" class="disc-icon">💿</div>
+                </div>
+
+                <button class="btn btn-primary" id="play-melody-btn" onclick="playMusicSnippet()" style="margin-bottom: 20px; font-size: 16px; padding: 12px 28px;">▶️ Phát Đoạn Nhạc (15s)</button>
+
+                <div id="music-question-area"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. FLASHCARDS LOGIC ---
+        const vocabList = [
+            { word: "famous", type: "Adjective", ipa: "/ˈfeɪməs/", meaning: "Nổi tiếng", example: "She became a famous singer after winning the contest.", icon: "🌟" },
+            { word: "artist", type: "Noun", ipa: "/ˈɑːtɪst/", meaning: "Nghệ sĩ", example: "The young artist played the violin with great passion.", icon: "🎨" },
+            { word: "judge", type: "Noun", ipa: "/dʒʌdʒ/", meaning: "Giám khảo", example: "The judge gave encouraging feedback to the contestant.", icon: "👨‍⚖️" },
+            { word: "talented", type: "Adjective", ipa: "/ˈtæləntɪd/", meaning: "Tài năng", example: "He is a talented musician who plays three instruments.", icon: "🏆" },
+            { word: "performance", type: "Noun", ipa: "/pəˈfɔːməns/", meaning: "Buổi biểu diễn", example: "Their live performance on stage amazed everyone.", icon: "🎭" },
+            { word: "audience", type: "Noun", ipa: "/ˈɔːdiəns/", meaning: "Khán giả", example: "The audience cheered enthusiastically after the song.", icon: "👏" },
+            { word: "instrument", type: "Noun", ipa: "/ˈɪnstrəmənt/", meaning: "Nhạc cụ", example: "The guitar is her favorite musical instrument.", icon: "🎸" },
+            { word: "vocalist", type: "Noun", ipa: "/ˈvəʊkəlɪst/", meaning: "Ca sĩ chính", example: "The lead vocalist has a very impressive voice.", icon: "🎤" },
+            { word: "concert", type: "Noun", ipa: "/ˈkɒnsət/", meaning: "Buổi hòa nhạc", example: "Thousands of fans attended the outdoor concert.", icon: "🏟️" },
+            { word: "talent show", type: "Noun", ipa: "/ˈtælənt ʃəʊ/", meaning: "Cuộc thi tài năng", example: "She joined a national talent show to showcase her singing.", icon: "📺" },
+            { word: "single", type: "Noun", ipa: "/ˈsɪŋɡl/", meaning: "Đĩa đơn / Bài hát", example: "Their new single reached number one on the music charts.", icon: "💿" },
+            { word: "fan", type: "Noun", ipa: "/fæn/", meaning: "Người hâm mộ", example: "The singer spent an hour taking photos with her fans.", icon: "🤩" },
+            { word: "rhythm", type: "Noun", ipa: "/ˈrɪðəm/", meaning: "Nhịp điệu", example: "The upbeat rhythm makes everyone want to dance.", icon: "🥁" },
+            { word: "musician", type: "Noun", ipa: "/mjuːˈzɪʃn/", meaning: "Nhạc sĩ / Vũ công", example: "He is a creative musician who writes his own songs.", icon: "🎼" }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        function switchTab(tab) {
+            stopMusic();
+            document.getElementById('section-cards').style.display = tab === 'cards' ? 'block' : 'none';
+            document.getElementById('section-game').style.display = tab === 'game' ? 'block' : 'none';
+            document.getElementById('section-quiz').style.display = tab === 'quiz' ? 'block' : 'none';
+            document.getElementById('section-music').style.display = tab === 'music' ? 'block' : 'none';
+
+            document.getElementById('btn-tab-cards').className = 'nav-btn ' + (tab === 'cards' ? 'active' : '');
+            document.getElementById('btn-tab-game').className = 'nav-btn ' + (tab === 'game' ? 'active' : '');
+            document.getElementById('btn-tab-quiz').className = 'nav-btn ' + (tab === 'quiz' ? 'active' : '');
+            document.getElementById('btn-tab-music').className = 'nav-btn ' + (tab === 'music' ? 'active' : '');
+
+            if (tab === 'game') setTimeout(drawWheel, 100);
+            if (tab === 'quiz' && remainingQuizIndices.length === 0 && !hasQuizFinished) initQuizSystem();
+            if (tab === 'music' && remainingMusicIndices.length === 0 && !hasMusicFinished) initMusicQuiz();
+        }
+
+        function updateCard() {
+            const item = vocabList[currentIndex];
+            document.getElementById('card-counter').innerText = `Word ${currentIndex + 1} of ${vocabList.length}`;
+            document.getElementById('card-type').innerText = item.type;
+            document.getElementById('card-back-type').innerText = item.type;
+            document.getElementById('card-icon').innerText = item.icon;
+            document.getElementById('card-word').innerText = item.word;
+            document.getElementById('card-ipa').innerText = item.ipa;
+            document.getElementById('card-back-ipa').innerText = item.ipa;
+            document.getElementById('card-meaning').innerText = item.meaning;
+            document.getElementById('card-example').innerText = `"${item.example}"`;
+            if (isFlipped) flipCard();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() { currentIndex = (currentIndex + 1) % vocabList.length; updateCard(); }
+        function prevCard() { currentIndex = (currentIndex - 1 + vocabList.length) % vocabList.length; updateCard(); }
+        function shuffleCards() { vocabList.sort(() => Math.random() - 0.5); currentIndex = 0; updateCard(); }
+
+        function speakWord(text) {
+            const wordToSpeak = text || vocabList[currentIndex].word;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- 2. VOCAB LUCKY WHEEL GAME ---
+        let isSpinning = false;
+        let currentGiftOrder = [];
+        let sectors = [];
+
+        function initSectors() {
+            sectors = vocabList.map((_, i) => ({
+                label: `Q${i + 1}`,
+                index: i,
+                color: i % 2 === 0 ? "#f472b6" : "#a78bfa"
+            }));
+        }
+        initSectors();
+
+        let currentAngle = 0;
+        let selectedSector = null;
+
+        function drawWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (sectors.length === 0) {
+                ctx.beginPath();
+                ctx.fillStyle = "#e2e8f0";
+                ctx.arc(radius, radius, radius - 8, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillStyle = "#64748b";
+                ctx.font = "bold 16px Quicksand, sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("HẾT CÂU HỎI!", radius, radius + 5);
+                return;
+            }
+
+            const arc = (2 * Math.PI) / sectors.length;
+
+            sectors.forEach((sec, i) => {
+                const angle = currentAngle + i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = sec.color;
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 8, angle, angle + arc);
+                ctx.lineTo(radius, radius);
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "#ffffff";
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 15px Quicksand, sans-serif";
+                ctx.fillText(sec.label, radius - 15, 5);
+                ctx.restore();
+            });
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            if (sectors.length === 0) {
+                alert("Đã trả lời hết tất cả các câu hỏi! Hãy bấm 'Reset All Questions' để khôi phục lại nhé.");
+                return;
+            }
+
+            isSpinning = true;
+            const spinAngle = Math.random() * 10 + 25;
+            const duration = 3000;
+            const start = performance.now();
+            const startAngle = currentAngle;
+
+            function animate(time) {
+                const elapsed = time - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                currentAngle = startAngle + easeOut * spinAngle;
+                drawWheel();
+
+                if (progress < 1) requestAnimationFrame(animate);
+                else {
+                    isSpinning = false;
+                    const arc = (2 * Math.PI) / sectors.length;
+                    const normalized = (3 * Math.PI / 2 - (currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+                    const index = Math.floor(normalized / arc);
+
+                    selectedSector = sectors[index];
+                    sectors.splice(index, 1);
+                    drawWheel();
+                    showRandomChallenge(selectedSector.index);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function showRandomChallenge(wordIdx) {
+            const item = vocabList[wordIdx];
+            const challengeTypes = ['scramble', 'listen', 'meaning'];
+            const chosenType = challengeTypes[Math.floor(Math.random() * challengeTypes.length)];
+
+            if (chosenType === 'scramble') {
+                let scrambledStr = item.word;
+                let attempts = 0;
+                while (scrambledStr === item.word && attempts < 10) {
+                    scrambledStr = item.word.split('').sort(() => Math.random() - 0.5).join('');
+                    attempts++;
+                }
+
+                const options = getOptions(item.word, 'word');
+
+                document.getElementById('challenge-box').innerHTML = `
+                    <p style="font-size: 12px; font-weight: 700; color: #ec4899; text-transform: uppercase;">CÂU HỎI SỐ ${wordIdx + 1}</p>
+                    <p style="font-size: 13px; font-weight: 700; color: #64748b; margin-top: 4px;">🔤 WORD SCRAMBLE 🔤</p>
+                    <div class="scramble-letters">${scrambledStr.toUpperCase()}</div>
+                    <p style="font-weight: 700; color: #475569; font-size: 14px;">Gợi ý nghĩa: <span style="color: #db2777;">${item.meaning}</span></p>
+                    <div class="opt-grid">
+                        ${options.map(opt => `<button class="opt-btn" style="text-align:center;" onclick="checkAnswer('${opt}', '${item.word}')">${opt}</button>`).join('')}
+                    </div>
+                `;
+            } else if (chosenType === 'listen') {
+                const options = getOptions(item.word, 'word');
+
+                document.getElementById('challenge-box').innerHTML = `
+                    <p style="font-size: 12px; font-weight: 700; color: #ec4899; text-transform: uppercase;">CÂU HỎI SỐ ${wordIdx + 1}</p>
+                    <p style="font-size: 13px; font-weight: 700; color: #64748b; margin-top: 4px;">🔊 NGHE VÀ CHỌN TỪ ĐÚNG 🔊</p>
+                    <button class="speaker-btn" style="width: 60px; height: 60px; font-size: 28px; margin: 12px 0;" onclick="speakWord('${item.word}')">🔊</button>
+                    <p style="font-size: 13px; color: #64748b; font-weight: 700;">(Bấm loa để nghe phát âm)</p>
+                    <div class="opt-grid">
+                        ${options.map(opt => `<button class="opt-btn" style="text-align:center;" onclick="checkAnswer('${opt}', '${item.word}')">${opt}</button>`).join('')}
+                    </div>
+                `;
+                speakWord(item.word);
+            } else {
+                const options = getOptions(item.meaning, 'meaning');
+
+                document.getElementById('challenge-box').innerHTML = `
+                    <p style="font-size: 12px; font-weight: 700; color: #ec4899; text-transform: uppercase;">CÂU HỎI SỐ ${wordIdx + 1}</p>
+                    <p style="font-size: 13px; font-weight: 700; color: #64748b; margin-top: 4px;">🇻🇳 CHỌN NGHĨA TIẾNG VIỆT TƯƠNG ỨNG 🇻🇳</p>
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 32px; color: #7c3aed; margin: 12px 0;">"${item.word}"</h2>
+                    <div class="opt-grid">
+                        ${options.map(opt => `<button class="opt-btn" style="text-align:center;" onclick="checkAnswer('${opt}', '${item.meaning}')">${opt}</button>`).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function getOptions(correctVal, key) {
+            const options = [correctVal];
+            while(options.length < 4) {
+                const r = vocabList[Math.floor(Math.random() * vocabList.length)][key];
+                if(!options.includes(r)) options.push(r);
+            }
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                const basePrizes = [
+                    { text: "0 điểm!", icon: "❌" },
+                    { text: "1 điểm!", icon: "⭐" },
+                    { text: "3 điểm!", icon: "🌟" }
+                ];
+                currentGiftOrder = basePrizes.sort(() => Math.random() - 0.5);
+
+                document.getElementById('challenge-box').innerHTML = `
+                    <div style="font-size: 40px;">🎉</div>
+                    <h3 style="font-family: 'Fredoka'; color: #22c55e; margin-bottom: 4px;">CHÍNH XÁC!</h3>
+                    <p style="font-weight: 700; color: #475569; font-size: 14px;">Hãy chọn 1 hộp quà để nhận điểm số giấu đằng sau:</p>
+                    <div class="gift-grid">
+                        <div class="gift-card" onclick="openGift(0)">🎁</div>
+                        <div class="gift-card" onclick="openGift(1)">🎁</div>
+                        <div class="gift-card" onclick="openGift(2)">🎁</div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('challenge-box').innerHTML = `
+                    <div style="font-size: 48px;">😅</div>
+                    <h3 style="font-family: 'Fredoka'; color: #ef4444;">RẤT TIẾC!</h3>
+                    <p style="margin-bottom: 12px;">Đáp án đúng là: <strong style="color: #7c3aed;">${correct}</strong></p>
+                    <button class="btn" onclick="resetGame()">Quay lượt tiếp 🎡</button>
+                `;
+            }
+        }
+
+        function openGift(boxIndex) {
+            const prize = currentGiftOrder[boxIndex];
+            document.getElementById('challenge-box').innerHTML = `
+                <div style="font-size: 64px; margin-bottom: 8px;">${prize.icon}</div>
+                <h3 style="font-family: 'Fredoka'; color: #db2777; font-size: 26px;">BẠN NHẬN ĐƯỢC:</h3>
+                <p style="font-family: 'Fredoka'; font-size: 22px; color: #7c3aed; margin-bottom: 16px;">${prize.text}</p>
+                <button class="btn btn-primary" onclick="resetGame()">Quay lượt tiếp 🎡</button>
+            `;
+        }
+
+        function resetGame() {
+            document.getElementById('challenge-box').innerHTML = `
+                <div style="font-size: 56px; margin-bottom: 12px;">🎡</div>
+                <h3 style="font-family: 'Fredoka', sans-serif; font-size: 24px; margin-bottom: 8px;">Spin the Wheel!</h3>
+                <p style="color: #64748b; font-size: 14px;">Quay vòng quay để chọn số thứ tự câu hỏi may mắn!</p>
+            `;
+        }
+
+        function resetDefaultWheel() {
+            initSectors();
+            currentAngle = 0;
+            drawWheel();
+            resetGame();
+        }
+
+        // --- 3. TRẮC NGHIỆM ABCD LOGIC (TỰ DỘNG RANDOM KHÔNG TRÙNG LẶP, HẾT CÂU LÀ HẾT) ---
+        const quizQuestions = [
+            {
+                id: 1, level: "Dễ",
+                question: "Question 1. What is the main purpose of a music competition?",
+                options: [
+                    "A. To teach students mathematics.",
+                    "B. To find and showcase musical talent.",
+                    "C. To sell musical instruments.",
+                    "D. To organise sports activities."
+                ],
+                correctLetter: "B", isHard: false
+            },
+            {
+                id: 2, level: "Dễ",
+                question: "Question 2. In a music show, who usually gives scores to the contestants?",
+                options: [
+                    "A. The judges.",
+                    "B. The reporters.",
+                    "C. The musicians' parents.",
+                    "D. The ticket sellers."
+                ],
+                correctLetter: "A", isHard: false
+            },
+            {
+                id: 3, level: "Dễ",
+                question: "Question 3. What does a contestant usually do in a singing competition?",
+                options: [
+                    "A. Write school reports.",
+                    "B. Sell concert tickets.",
+                    "C. Perform a song.",
+                    "D. Interview the audience."
+                ],
+                correctLetter: "C", isHard: false
+            },
+            {
+                id: 4, level: "Dễ",
+                question: "Question 4. In I Know Your Face, contestants dress up and perform as famous artists.",
+                options: [
+                    "A. True.",
+                    "B. False."
+                ],
+                correctLetter: "A", isHard: false
+            },
+            {
+                id: 5, level: "Trung bình",
+                question: "Question 5. Which sentence is the best way to introduce a new TV music show?",
+                options: [
+                    "A. We came up with an idea about a TV music show called “Young Talents”.",
+                    "B. We came up to an idea about a TV music show.",
+                    "C. We came up an idea about a TV music show.",
+                    "D. We came up with an idea for watch a TV music show."
+                ],
+                correctLetter: "A", isHard: false
+            },
+            {
+                id: 6, level: "Trung bình",
+                question: "Question 6. Which expression is suitable for describing the rules of a music competition?",
+                options: [
+                    "A. The audience has to repairing the stage.",
+                    "B. The contestants have to perform a song.",
+                    "C. The judges have to singing every song.",
+                    "D. The winner has to gives the prize."
+                ],
+                correctLetter: "B", isHard: false
+            },
+            {
+                id: 7, level: "Trung bình",
+                question: "Question 7. In I Know Your Face, the TV audience can vote for their favourite performance on the final night.",
+                options: [
+                    "A. True.",
+                    "B. False."
+                ],
+                correctLetter: "A", isHard: false
+            },
+            {
+                id: 8, level: "Nâng cao, khó",
+                question: "Question 8. Choose the correct sentence.",
+                options: [
+                    "A. The contestants have to performs on stage.",
+                    "B. The contestants have performing on stage.",
+                    "C. The contestants have to performed on stage.",
+                    "D. The contestants have to perform on stage."
+                ],
+                correctLetter: "D", isHard: true
+            },
+            {
+                id: 9, level: "Nâng cao, khó",
+                question: "Question 9. Choose the correct answer to complete the paragraph.<br><br>The organisers had expected the music competition to attract a large audience. ______, ticket sales were much lower than anticipated. ______ the disappointing turnout, they decided to broadcast the performances online; ______, more people could enjoy the show without being physically present.",
+                options: [
+                    "A. Nevertheless – In view of – thereby – so that",
+                    "B. Moreover – Owing to – whereas – in case",
+                    "C. Consequently – Regardless of – otherwise – even though",
+                    "D. On the contrary – In spite – therefore – provided that"
+                ],
+                correctLetter: "A", isHard: true
+            },
+            {
+                id: 10, level: "Nâng cao, khó",
+                question: "Question 10. Choose the best option to complete the paragraph.<br><br>...Contestants will be evaluated on several aspects of their performances, and the audience's votes will also ______ the final result.",
+                options: [
+                    "A. contribute to",
+                    "B. contribute for",
+                    "C. take part to",
+                    "D. participate for"
+                ],
+                correctLetter: "A", isHard: true
+            },
+            {
+                id: 11, level: "Nâng cao, khó",
+                question: "Question 11. Choose the best option to complete the conversation.<br><br>Mai: '...This way, both the judges' scores and the audience's votes would ______ the final decision.'",
+                options: [
+                    "A. have an influence in",
+                    "B. make a contribution for",
+                    "C. play a role in",
+                    "D. take responsibility to"
+                ],
+                correctLetter: "C", isHard: true
+            }
+        ];
+
+        let remainingQuizIndices = [];
+        let activeQuizQuestion = null;
+        let hasQuizFinished = false;
+
+        function initQuizSystem() {
+            remainingQuizIndices = quizQuestions.map((_, i) => i).sort(() => Math.random() - 0.5);
+            hasQuizFinished = false;
+            loadNextQuizQuestion();
+        }
+
+        function loadNextQuizQuestion() {
+            if (remainingQuizIndices.length === 0) {
+                hasQuizFinished = true;
+                document.getElementById('quiz-system-area').innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <div style="font-size: 60px; margin-bottom: 10px;">🏁</div>
+                        <h3 style="font-family: 'Fredoka'; color: #831843; font-size: 24px; margin-bottom: 12px;">ĐÃ HẾT CÂU HỎI TRẮC NGHIỆM!</h3>
+                        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">Bạn đã hoàn thành toàn bộ 11 câu hỏi trong bộ đề.</p>
+                        <button class="btn btn-primary" onclick="initQuizSystem()">Làm lại từ đầu 🔄</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const qIndex = remainingQuizIndices.pop();
+            const q = quizQuestions[qIndex];
+            activeQuizQuestion = q;
+
+            let lifelineHTML = "";
+            if (q.isHard) {
+                lifelineHTML = `
+                    <div class="lifeline-bar">
+                        <span style="font-size: 12px; font-weight: 700; color: #d97706;">⭐ Câu hỏi Nâng cao / Khó</span>
+                        <button id="lifeline-btn" class="lifeline-btn" onclick="useFiftyFifty()">💡 Trợ giúp 50/50</button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('quiz-system-area').innerHTML = `
+                <div style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 12px; font-weight: 700; color: #ec4899; text-transform: uppercase;">Mức độ: ${q.level}</span>
+                        <span style="font-size: 12px; font-weight: 700; color: #64748b;">Còn lại: ${remainingQuizIndices.length + 1} câu</span>
+                    </div>
+                    ${lifelineHTML}
+                    <p style="font-weight: 700; color: #1e293b; font-size: 15px; margin-bottom: 16px; line-height: 1.5;">${q.question}</p>
+                    <div class="opt-grid-single" id="quiz-options-container">
+                        ${q.options.map(opt => {
+                            const letter = opt.charAt(0);
+                            return `<button class="opt-btn" data-letter="${letter}" onclick="checkQuizAnswer('${letter}', '${q.correctLetter}')">${opt}</button>`;
+                        }).join('')}
+                    </div>
+                    <div id="next-quiz-btn-container" style="margin-top: 20px; text-align: right; display: none;">
+                        <button class="btn btn-primary" onclick="loadNextQuizQuestion()">Câu tiếp theo ➔</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function useFiftyFifty() {
+            const btn = document.getElementById('lifeline-btn');
+            if (btn) btn.disabled = true;
+
+            const correctL = activeQuizQuestion.correctLetter;
+            const optionBtns = document.querySelectorAll('#quiz-options-container .opt-btn');
+            
+            let incorrectButtons = [];
+            optionBtns.forEach(b => {
+                if (b.getAttribute('data-letter') !== correctL) {
+                    incorrectButtons.push(b);
+                }
+            });
+
+            incorrectButtons.sort(() => Math.random() - 0.5);
+            if (incorrectButtons.length >= 2) {
+                incorrectButtons[0].classList.add('hidden-option');
+                incorrectButtons[1].classList.add('hidden-option');
+            }
+        }
+
+        function checkQuizAnswer(selectedLetter, correctLetter) {
+            const optionBtns = document.querySelectorAll('#quiz-options-container .opt-btn');
+            optionBtns.forEach(b => {
+                b.disabled = true;
+                if (b.getAttribute('data-letter') === correctLetter) {
+                    b.style.background = "#dcfce7";
+                    b.style.borderColor = "#22c55e";
+                    b.style.color = "#166534";
+                } else if (b.getAttribute('data-letter') === selectedLetter) {
+                    b.style.background = "#fee2e2";
+                    b.style.borderColor = "#ef4444";
+                    b.style.color = "#991b1b";
+                }
+            });
+
+            document.getElementById('next-quiz-btn-container').style.display = 'block';
+        }
+
+        // --- 4. MUSIC CHALLENGE LOGIC (ĐÚNG 3 CÂU TƯƠNG ỨNG 3 BÀI, HẾT LÀ DỪNG) ---
+        const musicQuizList = [
+            {
+                title: "Faded - Alan Walker",
+                src: "Alan Walker - Faded (Lyrics).mp3",
+                startTime: 45,
+                options: [
+                    "A. Faded - Alan Walker",
+                    "B. Alone - Alan Walker",
+                    "C. Love Story - Taylor Swift",
+                    "D. We Don't Talk Anymore - Charlie Puth"
+                ],
+                correct: "A"
+            },
+            {
+                title: "Love Story - Taylor Swift",
+                src: "Taylor Swift - Love Story (Lyrics).mp3",
+                startTime: 50,
+                options: [
+                    "A. Blank Space - Taylor Swift",
+                    "B. You Belong With Me - Taylor Swift",
+                    "C. Love Story - Taylor Swift",
+                    "D. Faded - Alan Walker"
+                ],
+                correct: "C"
+            },
+            {
+                title: "We Don't Talk Anymore - Charlie Puth",
+                src: "Charlie Puth - We Don t Talk Anymore (Lyrics) feat. Selena Gomez.mp3",
+                startTime: 40,
+                options: [
+                    "A. Attention - Charlie Puth",
+                    "B. We Don't Talk Anymore - Charlie Puth",
+                    "C. Faded - Alan Walker",
+                    "D. Love Story - Taylor Swift"
+                ],
+                correct: "B"
+            }
+        ];
+
+        let remainingMusicIndices = [];
+        let currentMusicItem = null;
+        let audioPlayer = new Audio();
+        let audioTimer = null;
+        let hasMusicFinished = false;
+
+        function initMusicQuiz() {
+            remainingMusicIndices = musicQuizList.map((_, i) => i).sort(() => Math.random() - 0.5);
+            hasMusicFinished = false;
+            loadNextMusicQuestion();
+        }
+
+        function loadNextMusicQuestion() {
+            stopMusic();
+            if (remainingMusicIndices.length === 0) {
+                hasMusicFinished = true;
+                document.getElementById('music-question-area').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 60px; margin-bottom: 10px;">🎉</div>
+                        <h3 style="font-family: 'Fredoka'; color: #831843; font-size: 24px; margin-bottom: 8px;">ĐÃ ĐOÁN HẾT 3 BÀI HÁT!</h3>
+                        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">Bạn đã thử thách xong toàn bộ câu hỏi âm nhạc.</p>
+                        <button class="btn btn-primary" onclick="initMusicQuiz()">Chơi lại từ đầu 🔄</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const mIndex = remainingMusicIndices.pop();
+            currentMusicItem = musicQuizList[mIndex];
+
+            document.getElementById('music-question-area').innerHTML = `
+                <p style="font-weight: 700; color: #334155; margin-bottom: 12px;">Đoạn nhạc vừa nghe là bài hát nào? (Bài ${3 - remainingMusicIndices.length}/3)</p>
+                <div class="opt-grid-single" id="music-options">
+                    ${currentMusicItem.options.map(opt => {
+                        const letter = opt.charAt(0);
+                        return `<button class="opt-btn" data-letter="${letter}" onclick="checkMusicAnswer('${letter}', '${currentMusicItem.correct}')">${opt}</button>`;
+                    }).join('')}
+                </div>
+                <div id="next-music-btn-container" style="margin-top: 20px; text-align: right; display: none;">
+                    <button class="btn btn-primary" onclick="loadNextMusicQuestion()">Bài tiếp theo ➔</button>
+                </div>
+            `;
+        }
+
+        function playMusicSnippet() {
+            if (hasMusicFinished) return;
+            stopMusic();
+
+            const disc = document.getElementById('disc-element');
+            const playBtn = document.getElementById('play-melody-btn');
+
+            audioPlayer.src = currentMusicItem.src;
+            audioPlayer.currentTime = currentMusicItem.startTime;
+
+            disc.classList.add('spinning');
+            playBtn.innerText = "🔊 Đang phát đoạn nhạc (15 giây)...";
+            playBtn.disabled = true;
+
+            audioPlayer.play().then(() => {
+                audioTimer = setTimeout(() => {
+                    stopMusic();
+                }, 15000);
+            }).catch(e => {
+                alert("Hãy bấm nút phát nhạc lại một lần nữa nhé!");
+                stopMusic();
+            });
+        }
+
+        function stopMusic() {
+            if (audioPlayer) {
+                audioPlayer.pause();
+            }
+            if (audioTimer) {
+                clearTimeout(audioTimer);
+                audioTimer = null;
+            }
+            const disc = document.getElementById('disc-element');
+            const playBtn = document.getElementById('play-melody-btn');
+            if (disc) disc.classList.remove('spinning');
+            if (playBtn) {
+                playBtn.innerText = "▶️ Phát Đoạn Nhạc (15s)";
+                playBtn.disabled = false;
+            }
+        }
+
+        function checkMusicAnswer(selectedLetter, correctLetter) {
+            stopMusic();
+            const optionBtns = document.querySelectorAll('#music-options .opt-btn');
+            optionBtns.forEach(b => {
+                b.disabled = true;
+                if (b.getAttribute('data-letter') === correctLetter) {
+                    b.style.background = "#dcfce7";
+                    b.style.borderColor = "#22c55e";
+                    b.style.color = "#166534";
+                } else if (b.getAttribute('data-letter') === selectedLetter) {
+                    b.style.background = "#fee2e2";
+                    b.style.borderColor = "#ef4444";
+                    b.style.color = "#991b1b";
+                }
+            });
+            document.getElementById('next-music-btn-container').style.display = 'block';
+        }
+
+        // Initialize App on load
+        updateCard();
+    </script>
+</body>
+</html>
